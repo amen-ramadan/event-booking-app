@@ -8,6 +8,34 @@ const typeDefs = `#graphql
     getUserEvents(userId: ID!): [Event]
   }
 
+  type Mutation {
+    createUser(UserInput: UserInput!): User
+    createEvent(eventInput: EventInput!): Event
+    bookEvent(eventId: ID!): Booking
+    cancelBooking(bookingId: ID!): Event
+    login(username: String!, password: String!): AuthData
+    deleteEvent(eventId: ID!): [Event]
+  }
+
+  type AuthData {
+    token: string!
+    userId: ID!
+    username: String!
+  }
+
+  input UserInput {
+    username: String!
+    email: String!
+    password: String!
+  }
+
+  input EventInput {
+    title: String!
+    description: String!
+    date: String!
+    price: Float!
+  }
+
   type Booking {
     _id: ID!
     event: Event!
