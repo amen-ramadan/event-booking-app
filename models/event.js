@@ -1,0 +1,28 @@
+import mongoose from "mongoose";
+
+const Schema = mongoose.Schema;
+
+const eventSchema = new Schema({
+  title: {
+    type: String,
+    require: true,
+  },
+  description: {
+    type: String,
+    require: true,
+  },
+  price: {
+    type: Number,
+    require: true,
+  },
+  date: {
+    type: Date,
+    require: true,
+  },
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+});
+
+export default mongoose.model("Event", eventSchema);

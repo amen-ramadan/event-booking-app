@@ -18,7 +18,7 @@ const typeDefs = `#graphql
   }
 
   type AuthData {
-    token: string!
+    token: String!
     userId: ID!
     username: String!
   }
