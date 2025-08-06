@@ -9,11 +9,11 @@ const typeDefs = `#graphql
   }
 
   type Mutation {
-    createUser(UserInput: UserInput!): User
+    createUser(userInput: UserInput!): User
     createEvent(eventInput: EventInput!): Event
     bookEvent(eventId: ID!): Booking
     cancelBooking(bookingId: ID!): Event
-    login(username: String!, password: String!): AuthData
+    login(email: String!, password: String!): AuthData
     deleteEvent(eventId: ID!): [Event]
   }
 
