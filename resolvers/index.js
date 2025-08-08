@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { GraphQLError } from "graphql";
 import jwt from "jsonwebtoken";
 import Event from "../models/event.js";
+import Booking from "../models/booking.js";
 
 import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
@@ -26,6 +27,23 @@ const resolvers = {
         return events.map((event) => ({
           ...event._doc,
           date: event.date.toDateString(),
+        }));
+      } catch (err) {
+        throw err;
+      }
+    },
+    bookings: async (_, args, context) => {
+      if (!context.user) {
+        throw new GraphQLError("يرجى تسجيل الدخول");
+      }
+      try {
+        const bookings = await Booking.find({ user: context.user._id })
+          .populate("event")
+          .populate("user");
+        return bookings.map((booking) => ({
+          ...booking._doc,
+          createdAt: booking.createdAt.toDateString(),
+          updatedAt: booking.updatedAt.toDateString(),
         }));
       } catch (err) {
         throw err;
@@ -136,6 +154,50 @@ const resolvers = {
       try {
         await Event.deleteOne({ _id: args.eventId });
         return Event.find();
+      } catch (err) {
+        throw err;
+      }
+    },
+    bookEvent: async (_, args, context) => {
+      if (!context.user) {
+        throw new GraphQLError("يرجى تسجيل الدخول");
+      }
+      const existingBooking = await Booking.find({ event: args.eventId }).find({
+        user: context.user._id,
+      });
+      if (existingBooking.length > 0) {
+        throw new GraphQLError("لقد قمت بحجز هذه المناسبة مسبقا");
+      }
+      const fetchedEvent = await Event.findOne({ _id: args.eventId });
+      const booking = new Booking({
+        user: context.user,
+        event: fetchedEvent,
+      });
+      try {
+        const result = await booking.save();
+        return {
+          ...result._doc,
+          createdAt: result.createdAt.toISOString(),
+          updatedAt: result.updatedAt.toISOString(),
+        };
+      } catch (err) {
+        throw err;
+      }
+    },
+    cancelBooking: async (_, args, context) => {
+      if (!context.user) {
+        throw new GraphQLError("يرجى تسجيل الدخول");
+      }
+      try {
+        const booking = await Booking.findById(args.bookingId).populate(
+          "event"
+        );
+        const event = {
+          ...booking.event._doc,
+          date: booking.event.date.toDateString(),
+        };
+        await Booking.deleteOne({ _id: args.bookingId });
+        return event;
       } catch (err) {
         throw err;
       }
