@@ -18,14 +18,11 @@ const { url } = await startStandaloneServer(server, {
   listen: { port: process.env.PORT },
   context: async ({ req }) => {
     const auth = req?.headers?.authorization || null;
-    console.log("AUTH HEADER:", auth);
     if (auth && auth.startsWith("Bearer ")) {
       try {
         const token = auth.slice(7);
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("DECODED TOKEN:", decodedToken);
         const user = await User.findById(decodedToken.id);
-        console.log("FOUND USER:", user);
         return { user };
       } catch (err) {
         console.error("JWT ERROR:", err);
