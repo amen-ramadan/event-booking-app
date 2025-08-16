@@ -5,6 +5,7 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Link } from "react-router";
+import { ModeToggle } from "../mode-toggle";
 
 export const NavMenu = (props: any) => (
   <NavigationMenu {...props}>
@@ -18,6 +19,9 @@ export const NavMenu = (props: any) => (
         <NavigationMenuLink asChild>
           <Link to="/event">المناسبات</Link>
         </NavigationMenuLink>
+      </NavigationMenuItem>
+      <NavigationMenuItem>
+        <ModeToggle />
       </NavigationMenuItem>
     </NavigationMenuList>
   </NavigationMenu>

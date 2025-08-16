@@ -9,7 +9,7 @@ const typeDefs = `#graphql
   }
 
   type Mutation {
-    createUser(userInput: UserInput!): User
+    createUser(userInput: UserInput!): AuthPayload
     createEvent(eventInput: EventInput!): Event
     bookEvent(eventId: ID!): Booking
     cancelBooking(bookingId: ID!): Event
@@ -49,6 +49,13 @@ const typeDefs = `#graphql
     email: String!
     password: String!
   }
+
+  type AuthPayload {
+  userId: ID!
+  username: String!
+  email: String!
+  token: String!
+}
 
   type Event {
     _id: ID!

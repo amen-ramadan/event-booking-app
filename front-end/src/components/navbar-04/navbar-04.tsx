@@ -7,7 +7,7 @@ import { Link, Outlet } from "react-router";
 const Navbar04Page = () => {
   return (
     <>
-      <nav className=" h-16 bg-background border dark:border-slate-700/70 max-w-screen-xl mx-3 md:mx-10 mt-3 rounded-full">
+      <nav className=" h-16 bg-background border dark:border-slate-700/70 max-w-screen-xl mx-3 md:mx-10 m-3 rounded-full">
         <div className="h-full flex items-center justify-between mx-auto px-4">
           <div className="flex items-center gap-3">
             {/* Mobile Menu */}

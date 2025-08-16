@@ -6,7 +6,9 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Link } from "react-router";
 
-export const NavMenu = (props: any) => (
+import React from "react";
+
+export const NavMenu = (props: React.ComponentProps<typeof NavigationMenu>) => (
   <NavigationMenu {...props}>
     <NavigationMenuList className="gap-6 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start">
       <NavigationMenuItem>
