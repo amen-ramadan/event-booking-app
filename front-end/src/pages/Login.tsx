@@ -1,6 +1,6 @@
 import { LOGIN } from "@/api/queries";
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Eye,
   EyeOff,
@@ -12,8 +12,12 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useNavigate } from "react-router";
+import AuthContext from "@/context/auth-context";
 
 export default function Login() {
+  const value = useContext(AuthContext);
+
+  // local state and inputs state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -29,12 +33,21 @@ export default function Login() {
     onCompleted: (data) => {
       console.log("Login successful:", data);
       // يمكنك إضافة navigation هنا
-      navigate("/booking");
+      navigate("/event");
     },
     onError: (error) => {
       console.error("Login error:", error);
     },
   });
+
+  useEffect(() => {
+    if (!loading && data) {
+      const token = data.login.token;
+      const userId = data.login.userId;
+      const username = data.login.username;
+      value.login(username, token, userId);
+    }
+  }, [data, loading, value]);
 
   const handleSubmit = async () => {
     if (email && password && !loading) {

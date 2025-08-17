@@ -1,6 +1,6 @@
 import { CREATE_USER } from "@/api/queries";
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Eye,
   EyeOff,
@@ -13,8 +13,11 @@ import {
   User,
 } from "lucide-react";
 import { useNavigate } from "react-router";
+import AuthContext from "@/context/auth-context";
 
 export default function Register() {
+  const value = useContext(AuthContext);
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,12 +35,22 @@ export default function Register() {
     onCompleted: (data) => {
       console.log("Login successful:", data);
       // يمكنك إضافة navigation هنا
-      navigate("/booking");
+      navigate("/event");
     },
     onError: (error) => {
       console.error("Login error:", error);
     },
   });
+
+  useEffect(() => {
+    if (!loading && data) {
+      console.log("Data:", data);
+      const token = data.createUser.token;
+      const userId = data.createUser.userId;
+      const username = data.createUser.username;
+      value.login(username, token, userId);
+    }
+  }, [data, loading, value]);
 
   const handleSubmit = async () => {
     if (username && email && password && !loading) {
@@ -79,7 +92,7 @@ export default function Register() {
   }
 
   if (data) {
-    console.log("Login data:", data.login.token);
+    console.log("signup data:", data.createUser.token);
   }
 
   return (

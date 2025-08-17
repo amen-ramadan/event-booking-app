@@ -11,9 +11,18 @@ importers:
       '@apollo/server':
         specifier: ^5.0.0
         version: 5.0.0(graphql@16.11.0)
+      '@as-integrations/express5':
+        specifier: ^1.1.2
+        version: 1.1.2(@apollo/server@5.0.0(graphql@16.11.0))(express@5.1.0)
+      '@graphql-tools/schema':
+        specifier: ^10.0.25
+        version: 10.0.25(graphql@16.11.0)
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.2
+      cors:
+        specifier: ^2.8.5
+        version: 2.8.5
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
@@ -124,6 +133,13 @@ packages:
   '@apollo/utils.withrequired@3.0.0':
     resolution: {integrity: sha512-aaxeavfJ+RHboh7c2ofO5HHtQobGX4AgUujXP4CXpREHp9fQ9jPi6K9T1jrAKe7HIipoP0OJ1gd6JamSkFIpvA==}
     engines: {node: '>=16'}
+
+  '@as-integrations/express5@1.1.2':
+    resolution: {integrity: sha512-BxfwtcWNf2CELDkuPQxi5Zl3WqY/dQVJYafeCBOGoFQjv5M0fjhxmAFZ9vKx/5YKKNeok4UY6PkFbHzmQrdxIA==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@apollo/server': ^4.0.0 || ^5.0.0
+      express: ^5.0.0
 
   '@graphql-tools/merge@9.1.1':
     resolution: {integrity: sha512-BJ5/7Y7GOhTuvzzO5tSBFL4NGr7PVqTJY3KeIDlVTT8YLcTXtBR+hlrC3uyEym7Ragn+zyWdHeJ9ev+nRX1X2w==}
@@ -905,6 +921,11 @@ snapshots:
       graphql: 16.11.0
 
   '@apollo/utils.withrequired@3.0.0': {}
+
+  '@as-integrations/express5@1.1.2(@apollo/server@5.0.0(graphql@16.11.0))(express@5.1.0)':
+    dependencies:
+      '@apollo/server': 5.0.0(graphql@16.11.0)
+      express: 5.1.0
 
   '@graphql-tools/merge@9.1.1(graphql@16.11.0)':
     dependencies:
