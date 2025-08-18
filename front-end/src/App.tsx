@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router";
 import "./App.css";
-
 import Booking from "./pages/Booking";
 import Register from "./pages/Register";
 import Event from "./pages/Event";

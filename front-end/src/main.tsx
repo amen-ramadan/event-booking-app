@@ -11,6 +11,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { Toaster } from "sonner";
 
 // apollo initialization
 const link = createHttpLink({
@@ -39,6 +40,7 @@ createRoot(document.getElementById("root")!).render(
       <ApolloProvider client={client}>
         <BrowserRouter>
           <App />
+          <Toaster />
         </BrowserRouter>
       </ApolloProvider>
     </ThemeProvider>

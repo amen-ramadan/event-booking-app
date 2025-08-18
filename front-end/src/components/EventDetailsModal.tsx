@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -34,12 +35,18 @@ type EventModalProps = {
 const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
   const value = useContext(AuthContext);
   // mutation for create event
-  const [bookEventHandler, { data }] = useMutation(BOOK_EVENT, {
+  const [bookEventHandler] = useMutation(BOOK_EVENT, {
     onError: (error) => {
-      console.log(error.message);
+      toast.error(error.message, {
+        duration: 5000,
+        position: "top-center",
+      });
     },
     onCompleted: () => {
-      console.log("تم الحجز");
+      toast.success("تم الحجز بنجاح", {
+        duration: 5000,
+        position: "top-center",
+      });
     },
   });
 
@@ -85,6 +92,7 @@ const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
         eventId: event._id,
       },
     });
+    onClose();
   };
 
   return (
@@ -277,7 +285,7 @@ const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
           </Button>
 
           <div className="flex items-center gap-3">
-            {!isOwner && value.token ? (
+            {!isOwner && value.token && (
               <>
                 <Button
                   onClick={handleBooking}
@@ -289,7 +297,8 @@ const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
                   احجز مكانك
                 </Button>
               </>
-            ) : (
+            )}
+            {!value.token && !isOwner && (
               <>
                 <Button
                   className="bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700
