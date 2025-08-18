@@ -4,10 +4,7 @@ import { transformEvent, transformBooking } from "./transform.js";
 
 const eventResolver = {
   Query: {
-    events: async (_, args, context) => {
-      if (!context.user) {
-        throw new GraphQLError("يرجى تسجيل الدخول");
-      }
+    events: async () => {
       try {
         const events = await Event.find().populate("creator");
         return events.map((event) => transformEvent(event));

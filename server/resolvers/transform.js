@@ -1,7 +1,7 @@
 const transformEvent = (event) => {
   return {
     ...event._doc,
-    date: event._doc.date.toDateString(),
+    date: new Date(event._doc.date).toISOString().replace(/T/, " "),
   };
 };
 

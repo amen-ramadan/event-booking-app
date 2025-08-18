@@ -53,11 +53,11 @@ function App() {
         <Routes>
           <Route element={<Navbar04Page />}>
             <Route path="/" element={<Event />} />
+            {!token && <Route path="/booking" element={<Login />} />}
             <Route path="/booking" element={<Booking />} />
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            {!token && <Route path="event" element={<Login />} />}
-            <Route path="event" element={<Event />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/event" element={<Event />} />
           </Route>
         </Routes>
       </AuthContext.Provider>
