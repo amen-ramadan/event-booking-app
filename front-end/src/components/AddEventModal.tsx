@@ -19,10 +19,11 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { CREATE_EVENT } from "@/api/queries";
+import { useApolloClient, useMutation } from "@apollo/client";
+import { toast } from "sonner";
 
 type EventModalProps = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  event: any;
   isOpen: boolean;
   onClose: () => void;
 };
@@ -40,7 +41,23 @@ const FormSchema = z.object({
   }),
 });
 
-const AddEventModal = ({ event, isOpen, onClose }: EventModalProps) => {
+const AddEventModal = ({ isOpen, onClose }: EventModalProps) => {
+  const client = useApolloClient();
+  const [CreateEvent] = useMutation(CREATE_EVENT, {
+    onError: (error) => {
+      toast.error(error.message, {
+        duration: 5000,
+        position: "top-center",
+      });
+    },
+    onCompleted: () => {
+      toast.success("تم الحجز بنجاح", {
+        duration: 5000,
+        position: "top-center",
+      });
+      client.refetchQueries({ include: ["Events"] });
+    },
+  });
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -55,6 +72,14 @@ const AddEventModal = ({ event, isOpen, onClose }: EventModalProps) => {
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
     console.log("القيم المدخلة:", values);
+    CreateEvent({
+      variables: {
+        title: values.title,
+        description: values.description,
+        price: values.price,
+        date: values.date.toISOString(),
+      },
+    });
   }
 
   return (

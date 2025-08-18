@@ -7,17 +7,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, Search, Calendar, RefreshCw } from "lucide-react";
+import { AlertCircle, Search, Calendar, RefreshCw, Plus } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import EventItem from "@/components/EventItem";
 import EventModal from "@/components/EventDetailsModal";
 import AddEventModal from "@/components/AddEventModal";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 export default function Event() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const { loading, error, data, refetch } = useQuery(EVENTS);
 
@@ -40,30 +41,9 @@ export default function Event() {
     setSelectedEvent(null);
   };
 
-  // مكون Loading
-  const LoadingSkeleton = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {[...Array(8)].map((_, index) => (
-        <Card
-          key={index}
-          className="overflow-hidden border-rose-200 dark:border-rose-800 
-                    bg-gradient-to-br from-white to-rose-50/30 
-                    dark:from-gray-950 dark:to-rose-950/20"
-        >
-          <div className="p-6">
-            <Skeleton className="h-6 w-3/4 mb-4 bg-rose-100 dark:bg-rose-900/50" />
-            <Skeleton className="h-4 w-full mb-2 bg-rose-100 dark:bg-rose-900/50" />
-            <Skeleton className="h-4 w-2/3 mb-4 bg-rose-100 dark:bg-rose-900/50" />
-            <div className="flex justify-between items-center mb-4">
-              <Skeleton className="h-8 w-20 bg-rose-100 dark:bg-rose-900/50" />
-              <Skeleton className="h-4 w-24 bg-rose-100 dark:bg-rose-900/50" />
-            </div>
-            <Skeleton className="h-10 w-full bg-rose-100 dark:bg-rose-900/50" />
-          </div>
-        </Card>
-      ))}
-    </div>
-  );
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+  };
 
   // مكون Error
   const ErrorMessage = () => (
@@ -119,6 +99,19 @@ export default function Event() {
     <div className="container mx-auto px-4 py-8 space-y-8">
       {/* Header Section */}
       <div className="text-center space-y-4">
+        {/* اضافة مناسبة */}
+        <div>
+          <Button
+            variant="outline"
+            onClick={() => setIsAddModalOpen(true)}
+            className="border-rose-300 text-rose-700 hover:bg-rose-100
+                      dark:border-rose-600 dark:text-rose-300 dark:hover:bg-rose-950"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            اضافة مناسبة
+          </Button>
+        </div>
+
         <div className="flex items-center justify-center gap-3 mb-4">
           <Calendar className="w-8 h-8 text-rose-600" />
           <h1 className="text-4xl font-bold bg-gradient-to-r from-rose-600 to-rose-800 bg-clip-text text-transparent">
@@ -212,11 +205,7 @@ export default function Event() {
         isOpen={isModalOpen}
         onClose={closeModal}
       />
-      {/* <AddEventModal
-        event={selectedEvent}
-        isOpen={isModalOpen}
-        onClose={closeModal}
-      /> */}
+      <AddEventModal isOpen={isAddModalOpen} onClose={closeAddModal} />
     </div>
   );
 }
