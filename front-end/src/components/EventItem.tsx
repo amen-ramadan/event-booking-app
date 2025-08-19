@@ -44,11 +44,11 @@ export default function EventItem({
   return (
     <Card
       className="group hover:shadow-lg dark:hover:shadow-rose-500/25 transition-all duration-300 
-                        border-rose-200 hover:border-rose-300 
-                        dark:border-rose-800 dark:hover:border-rose-600 
-                        bg-gradient-to-br from-white to-rose-50/30 
-                        dark:from-gray-950 dark:to-rose-950/20 
-                        overflow-hidden"
+                border-rose-200 hover:border-rose-300 
+                dark:border-rose-800 dark:hover:border-rose-600 
+                bg-gradient-to-br from-white to-rose-50/30 
+                dark:from-gray-950 dark:to-rose-950/20 
+                overflow-hidden"
     >
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
@@ -109,10 +109,10 @@ export default function EventItem({
             onClick={() => onDetail(_id)}
             variant="outline"
             className="w-full 
-                                 border-rose-300 text-rose-700 hover:bg-rose-50 hover:border-rose-400
-                                 dark:border-rose-600 dark:text-rose-300 dark:hover:bg-rose-950 dark:hover:border-rose-500
-                                 font-medium transition-all duration-200 
-                                 shadow-md hover:shadow-lg"
+            border-rose-300 text-rose-700 hover:bg-rose-50 hover:border-rose-400
+            dark:border-rose-600 dark:text-rose-300 dark:hover:bg-rose-950 dark:hover:border-rose-500
+            font-medium transition-all duration-200 
+            shadow-md hover:shadow-lg"
           >
             أنت صاحب هذه المناسبة
           </Button>
@@ -120,10 +120,10 @@ export default function EventItem({
           <Button
             onClick={() => onDetail(_id)}
             className="w-full 
-                                 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 
-                                 dark:from-rose-600 dark:to-rose-700 dark:hover:from-rose-700 dark:hover:to-rose-800
-                                 text-white font-medium transition-all duration-200 
-                                 shadow-md hover:shadow-lg dark:shadow-rose-900/50"
+            bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 
+            dark:from-rose-600 dark:to-rose-700 dark:hover:from-rose-700 dark:hover:to-rose-800
+            text-white font-medium transition-all duration-200 
+            shadow-md hover:shadow-lg dark:shadow-rose-900/50"
           >
             عرض التفاصيل
           </Button>

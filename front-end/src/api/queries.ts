@@ -57,3 +57,28 @@ export const CREATE_EVENT = gql`
         }
       }
     `;
+
+export const BOOKINGS = gql`
+      query Bookings {
+        bookings {
+          _id
+          createdAt
+          event {
+            _id
+            title
+            description
+            price
+            date
+          }
+        }
+      }
+    `;
+
+export const CANCEL_BOOKING = gql`
+      mutation CancelBooking($bookingId: ID!) {
+        cancelBooking(bookingId: $bookingId) {
+          _id
+          title
+        }
+      }
+    `;

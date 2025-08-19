@@ -22,7 +22,7 @@ import {
   X,
 } from "lucide-react";
 import { Link } from "react-router";
-import { useMutation } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client";
 import { BOOK_EVENT } from "@/api/queries";
 
 type EventModalProps = {
@@ -34,6 +34,7 @@ type EventModalProps = {
 
 const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
   const value = useContext(AuthContext);
+  const client = useApolloClient();
   // mutation for create event
   const [bookEventHandler] = useMutation(BOOK_EVENT, {
     onError: (error) => {
@@ -92,6 +93,7 @@ const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
         eventId: event._id,
       },
     });
+    client.refetchQueries({ include: ["Bookings"] });
     onClose();
   };
 

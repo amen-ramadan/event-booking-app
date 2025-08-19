@@ -7,12 +7,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { AlertCircle, Search, Calendar, RefreshCw, Plus } from "lucide-react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Search, Calendar, Plus } from "lucide-react";
 import EventItem from "@/components/EventItem";
 import EventModal from "@/components/EventDetailsModal";
 import AddEventModal from "@/components/AddEventModal";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
+import ErrorMessage from "@/components/ErrorMessage";
 
 export default function Event() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -44,26 +44,6 @@ export default function Event() {
   const closeAddModal = () => {
     setIsAddModalOpen(false);
   };
-
-  // مكون Error
-  const ErrorMessage = () => (
-    <Alert className="border-rose-200 bg-rose-50 dark:border-rose-800 dark:bg-rose-950/50">
-      <AlertCircle className="h-4 w-4 text-rose-600 dark:text-rose-400" />
-      <AlertDescription className="text-rose-800 dark:text-rose-200">
-        حدث خطأ أثناء تحميل الأحداث: {error?.message}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => refetch()}
-          className="ml-4 border-rose-300 text-rose-700 hover:bg-rose-100
-                    dark:border-rose-600 dark:text-rose-300 dark:hover:bg-rose-950"
-        >
-          <RefreshCw className="w-4 h-4 mr-2" />
-          إعادة المحاولة
-        </Button>
-      </AlertDescription>
-    </Alert>
-  );
 
   // مكون عدم وجود أحداث
   const EmptyState = () => (
@@ -163,7 +143,7 @@ export default function Event() {
       <div className="space-y-6">
         {loading && <LoadingSkeleton />}
 
-        {error && <ErrorMessage />}
+        {error && <ErrorMessage error={error} refetch={refetch} />}
 
         {data && filteredEvents.length === 0 && <EmptyState />}
 
