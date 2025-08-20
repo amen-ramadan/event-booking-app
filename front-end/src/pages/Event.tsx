@@ -1,6 +1,6 @@
-import { EVENTS } from "@/api/queries";
+import { EVENT_ADDED, EVENTS } from "@/api/queries";
 import type { event } from "@/types";
-import { useQuery } from "@apollo/client";
+import { useQuery, useSubscription } from "@apollo/client";
 
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,14 +13,28 @@ import EventModal from "@/components/EventDetailsModal";
 import AddEventModal from "@/components/AddEventModal";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import ErrorMessage from "@/components/ErrorMessage";
+import { toast } from "sonner";
 
 export default function Event() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
   const { loading, error, data, refetch } = useQuery(EVENTS);
+  useSubscription(EVENT_ADDED, {
+    onSubscriptionData: async ({ subscriptionData }) => {
+      if (subscriptionData.data) {
+        const addedEvent = subscriptionData.data.eventAdded;
+        toast.success(`مناسبة جديدة بعنوان ${addedEvent.title} اضيفت للتو`, {
+          duration: 10000,
+          position: "bottom-center",
+        });
+      }
+      if (subscriptionData.error) {
+        toast.error("فشل جلب المناسبات الجديدة");
+      }
+    },
+  });
 
   // دالة للبحث في الأحداث
   const filteredEvents =

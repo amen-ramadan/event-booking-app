@@ -82,3 +82,15 @@ export const CANCEL_BOOKING = gql`
         }
       }
     `;
+
+export const EVENT_ADDED = gql`
+      subscription {
+        eventAdded {
+          _id
+          title
+          description
+          price
+          date
+        }
+      }
+    `;

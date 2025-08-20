@@ -65,6 +65,10 @@ const typeDefs = `#graphql
     price: Float!
     creator: User!
   }
+
+  type Subscription {
+    eventAdded: Event!
+  }
 `;
 
 export { typeDefs };

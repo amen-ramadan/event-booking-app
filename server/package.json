@@ -20,10 +20,13 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "graphql": "^16.11.0",
+    "graphql-subscriptions": "^3.0.0",
+    "graphql-ws": "^6.0.6",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "mongoose": "^8.17.0",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
     "mongodb": "^6.18.0"
