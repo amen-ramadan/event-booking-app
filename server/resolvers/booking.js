@@ -13,7 +13,9 @@ const bookResolver = {
         const bookings = await Booking.find({ user: context.user._id })
           .populate("event")
           .populate("user");
-        return bookings.map((booking) => transformBooking(booking));
+        return bookings
+          .map((booking) => transformBooking(booking))
+          .filter((booking) => booking.event);
       } catch (err) {
         throw err;
       }

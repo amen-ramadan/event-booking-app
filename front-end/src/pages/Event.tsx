@@ -198,6 +198,7 @@ export default function Event() {
         event={selectedEvent}
         isOpen={isModalOpen}
         onClose={closeModal}
+        refetch={refetch}
       />
       <AddEventModal isOpen={isAddModalOpen} onClose={closeAddModal} />
     </div>

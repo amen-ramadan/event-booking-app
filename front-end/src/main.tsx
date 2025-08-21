@@ -19,6 +19,7 @@ import { getMainDefinition } from "@apollo/client/utilities";
 
 // apollo initialization
 const link = createHttpLink({
+  // uri: "https://server-event-booking-app-production.up.railway.app/graphql",
   uri: "http://localhost:4000/graphql",
   credentials: "same-origin",
 });
@@ -26,6 +27,7 @@ const link = createHttpLink({
 const wsLink = new GraphQLWsLink(
   createClient({
     url: "ws://localhost:4000/graphql",
+    // url: "wss://server-event-booking-app-production.up.railway.app/graphql",
     connectionParams: {
       authToken: localStorage.getItem("token"),
     },

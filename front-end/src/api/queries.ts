@@ -67,6 +67,14 @@ export const CREATE_EVENT = gql`
   }
 `;
 
+export const DELETE_EVENT = gql`
+  mutation DeleteEvent($eventId: ID!) {
+    deleteEvent(eventId: $eventId) {
+      _id
+    }
+  }
+`;
+
 export const BOOKINGS = gql`
   ${EVENT_FIELDS}
   query Bookings {

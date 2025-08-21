@@ -20,22 +20,33 @@ import {
   Star,
   Share2,
   X,
+  Trash,
 } from "lucide-react";
 import { Link } from "react-router";
-import { useApolloClient, useMutation } from "@apollo/client";
-import { BOOK_EVENT } from "@/api/queries";
+import { useMutation } from "@apollo/client";
+import { BOOK_EVENT, DELETE_EVENT } from "@/api/queries";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type EventModalProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   event: any;
   isOpen: boolean;
   onClose: () => void;
+  refetch: () => void;
 };
 
-const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
+const EventModal = ({ event, isOpen, onClose, refetch }: EventModalProps) => {
   const value = useContext(AuthContext);
-  const client = useApolloClient();
-  // mutation for create event
+  // mutation for create booking
   const [bookEventHandler] = useMutation(BOOK_EVENT, {
     onError: (error) => {
       toast.error(error.message, {
@@ -45,6 +56,21 @@ const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
     },
     onCompleted: () => {
       toast.success("تم الحجز بنجاح", {
+        duration: 5000,
+        position: "top-center",
+      });
+    },
+  });
+
+  const [deleteEventHandler] = useMutation(DELETE_EVENT, {
+    onError: (error) => {
+      toast.error(error.message, {
+        duration: 5000,
+        position: "top-center",
+      });
+    },
+    onCompleted: () => {
+      toast.success("تم حذف الحجز بنجاح", {
         duration: 5000,
         position: "top-center",
       });
@@ -93,7 +119,17 @@ const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
         eventId: event._id,
       },
     });
-    client.refetchQueries({ include: ["Bookings"] });
+    refetch();
+    onClose();
+  };
+
+  const handleDelete = () => {
+    deleteEventHandler({
+      variables: {
+        eventId: event._id,
+      },
+    });
+    refetch();
     onClose();
   };
 
@@ -314,13 +350,48 @@ const EventModal = ({ event, isOpen, onClose }: EventModalProps) => {
             )}
 
             {isOwner && (
-              <Badge
-                variant="secondary"
-                className="bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-300 px-4 py-2"
-              >
-                <User className="w-4 h-4 mr-2" />
-                أنت منظم هذه المناسبة
-              </Badge>
+              <>
+                <Badge
+                  variant="secondary"
+                  className="bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-300 px-4 py-2"
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  أنت منظم هذه المناسبة
+                </Badge>
+
+                {/* <Button
+                  className="bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700
+                            dark:from-rose-600 dark:to-rose-700 dark:hover:from-rose-700 dark:hover:to-rose-800
+                            text-white shadow-lg hover:shadow-xl transition-all duration-200"
+                  onClick={handleDelete}
+                >
+                  <Trash className="w-4 h-4 mr-2" />
+                  حذف
+                </Button> */}
+                <AlertDialog>
+                  <AlertDialogTrigger
+                    className="flex items-center space-x-1 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700
+                            dark:from-rose-600 dark:to-rose-700 dark:hover:from-rose-700 dark:hover:to-rose-800
+                            text-white shadow-lg hover:shadow-xl transition-all duration-200 px-4 py-2 rounded-lg text-sm"
+                  >
+                    <Trash className="w-4 h-4 mr-2" />
+                    <span>حذف</span>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        هل أنت متأكد من حذف هذه المناسبة؟
+                      </AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>إغلاق</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleDelete}>
+                        نعم
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
             )}
           </div>
         </div>

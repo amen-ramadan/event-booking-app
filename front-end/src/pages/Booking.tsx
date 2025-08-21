@@ -199,6 +199,7 @@ export default function Booking() {
                   createdAt={booking.createdAt}
                   onCancelBooking={handleCancelBooking}
                   isLoading={cancelLoading}
+                  cardLoading={loading}
                 />
               </div>
             ))}
