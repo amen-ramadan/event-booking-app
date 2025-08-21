@@ -358,16 +358,6 @@ const EventModal = ({ event, isOpen, onClose, refetch }: EventModalProps) => {
                   <User className="w-4 h-4 mr-2" />
                   أنت منظم هذه المناسبة
                 </Badge>
-
-                {/* <Button
-                  className="bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700
-                            dark:from-rose-600 dark:to-rose-700 dark:hover:from-rose-700 dark:hover:to-rose-800
-                            text-white shadow-lg hover:shadow-xl transition-all duration-200"
-                  onClick={handleDelete}
-                >
-                  <Trash className="w-4 h-4 mr-2" />
-                  حذف
-                </Button> */}
                 <AlertDialog>
                   <AlertDialogTrigger
                     className="flex items-center space-x-1 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700

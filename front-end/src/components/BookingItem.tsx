@@ -80,7 +80,6 @@ export default function BookingItem({
     }
 
     const now = new Date();
-    console.log("eventDate", eventDate, "now", now);
     return eventDate < now;
   }
 

@@ -176,6 +176,8 @@ export default function Event() {
                   description={event.description}
                   creator={event.creator}
                   onDetail={handleEventDetail}
+                  refetch={refetch}
+                  isLoading={loading}
                 />
               </div>
             ))}
