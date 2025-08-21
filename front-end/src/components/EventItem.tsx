@@ -99,26 +99,23 @@ export default function EventItem({
     return eventDate < now;
   };
 
-  // تنسيق التاريخ للعرض
-  const formatDate = (dateString: string): string => {
-    const eventDate = parseEventDate(dateString);
+  // تنسيق التاريخ مع معالجة الأخطاء
+  const formatDate = (dateString: string) => {
+    const parsedDate = parseEventDate(dateString);
 
-    if (!eventDate) {
+    if (!parsedDate) {
       return "تاريخ غير صالح";
     }
 
     try {
-      // عرض التاريخ مع الوقت إذا كان متاحاً
-      return eventDate.toLocaleDateString("ar-SA", {
+      return parsedDate.toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
       });
     } catch {
       // fallback formatting
-      return dateString.split(".")[0].split(" ")[0].replace(/-/g, "/");
+      return parsedDate.toDateString();
     }
   };
 
